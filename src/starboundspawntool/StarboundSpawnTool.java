@@ -78,8 +78,10 @@ public class StarboundSpawnTool
 				lWriter.write(
 						"{" + "\n"
 						+ "\"input\" : [{ \"item\" : \"money\", \"count\" : 1 }]," + "\n"
-						+ "\"output\" : { \"item\" : \"ITEMNAME\", \"count\" : 1}," + "\n"
-						+ "\"groups\" : [ \"plain\", \"CATEGORY\", \"all\" ]" + "\n"
+						+ "\"output\" : { \"item\" : \"" + lItem + "\", \"count\" : 1}," + "\n"
+						+ "\"groups\" : [ \"" 
+						+ lToolArgs.getCraftingType() + "\", \"" 
+						+ lToolArgs.getCraftingCategory() + "\", \"all\" ]" + "\n"
 						+ "}" + "\n");
 						
 				lWriter.close();
