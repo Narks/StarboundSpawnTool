@@ -18,8 +18,7 @@ public class ToolArguments
 	private File mInputListFile;
 	public File getInputListFile() { return mInputListFile; }
 	
-	@Parameter(names = "-output", description = "Output directory",
-			converter = FileConverter.class)
+	@Parameter(names = "-output", description = "Output directory")
 	private String mOutputDirectoryPath = "";
 	public Path getOutputDirectoryPath() 
 	{

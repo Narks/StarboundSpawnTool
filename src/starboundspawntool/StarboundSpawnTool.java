@@ -2,10 +2,11 @@ package starboundspawntool;
 
 import com.beust.jcommander.JCommander;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Writer;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -49,31 +50,42 @@ public class StarboundSpawnTool
 			lCLParser.usage();
 			return;
 		}
-
-		
-		
+	
 		// Make magic happen
 		List<String> lItemList = new ArrayList<String>();
 		try
 		{
-			// Read input items
+			File lPlayerConfigOutput = lToolArgs.getOutputDirectoryPath()
+				.resolve("player.config").toFile();
+			lPlayerConfigOutput.getParentFile().mkdirs();
+			lPlayerConfigOutput.createNewFile();
+			
+			// Read input items, write to partial player.config
+			Writer lConfigWriter = new BufferedWriter(
+						new OutputStreamWriter(
+						new FileOutputStream(lPlayerConfigOutput), "utf-8"));
+			
 			Scanner lScanner = new Scanner(lToolArgs.getInputListFile());
 			while (lScanner.hasNext())
 			{
-				lItemList.add(lScanner.next());
+				String lItemName = lScanner.next();
+				lItemList.add(lItemName);
+				lConfigWriter.write("				{ \"item\" : \"" 
+						+ lItemName + "\" },\n");
 			}
 			lScanner.close();
+			lConfigWriter.close();
 			
 			for (String lItem : lItemList)
 			{
+				Path lOutputPath =
+						lToolArgs.getOutputDirectoryPath()
+						.resolve(RECIPE_PREFIX + lItem + ".recipe");
+				
 				// Write output recipe
 				Writer lWriter = new BufferedWriter(
 						new OutputStreamWriter(
-						new FileOutputStream(
-							lToolArgs.getOutputDirectoryPath().toAbsolutePath()
-							+ RECIPE_PREFIX
-							+ lItem
-							), "utf-8"));
+						new FileOutputStream(lOutputPath.toFile()), "utf-8"));
 				
 				lWriter.write(
 						"{" + "\n"
@@ -89,13 +101,10 @@ public class StarboundSpawnTool
 		}
 		catch (Exception lException)
 		{
-			System.out.println(lException.getMessage());
+			System.out.println("ERROR: " + lException.getMessage());
+			lException.printStackTrace();
 			return;
 		}
-		// Open input file
-		
-		
-		// For each line in input file, create an output file
-		// 
+
 	}
 }
