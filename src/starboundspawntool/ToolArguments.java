@@ -3,6 +3,8 @@ package starboundspawntool;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Holds arguments from command line.
@@ -16,9 +18,13 @@ public class ToolArguments
 	private File mInputListFile;
 	public File getInputListFile() { return mInputListFile; }
 	
-	@Parameter(names = "-output", description = "Output directory")
-	private String mOutputDirectory;
-	public String getOutputDirectory() { return mOutputDirectory; }
+	@Parameter(names = "-output", description = "Output directory",
+			converter = FileConverter.class)
+	private String mOutputDirectoryPath;
+	public Path getOutputDirectoryPath() 
+	{
+		return Paths.get(mOutputDirectoryPath);
+	}
 	
 	@Parameter(names = "-category", 
 			description = "Crafting category item goes into")
@@ -46,6 +52,17 @@ public class ToolArguments
 					+ "\"");
 			lValid = false;
 		}
+		
+		/*
+		File lTestFile = new File(getOutputDirectoryPath());
+		if (lTestFile.canWrite() == false)
+		{
+			System.out.println("Cannot write to output directory: \"" 
+					+ lTestFile.getAbsolutePath()
+					+ "\"");
+			lValid = false;
+		}
+		*/
 		
 		return lValid;
 	}
