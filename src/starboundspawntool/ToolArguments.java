@@ -14,13 +14,13 @@ import java.nio.file.Paths;
 public class ToolArguments
 {
 	@Parameter(names = "-input", description = "Text file with item list",
-			converter = FileConverter.class)
+			converter = FileConverter.class, required = true)
 	private File mInputListFile;
 	public File getInputListFile() { return mInputListFile; }
 	
 	@Parameter(names = "-output", description = "Output directory",
 			converter = FileConverter.class)
-	private String mOutputDirectoryPath;
+	private String mOutputDirectoryPath = "";
 	public Path getOutputDirectoryPath() 
 	{
 		return Paths.get(mOutputDirectoryPath);
@@ -59,7 +59,7 @@ public class ToolArguments
 		{
 			System.out.println("Cannot write to output directory: \"" 
 					+ lTestFile.getAbsolutePath()
-					+ "\"");
+					+ "\"");con
 			lValid = false;
 		}
 		*/

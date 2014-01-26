@@ -33,10 +33,18 @@ public class StarboundSpawnTool
 	{
 		// Parse command line arguments
 		ToolArguments lToolArgs = new ToolArguments();
-		JCommander lCLParser = new JCommander(lToolArgs, aArgs);
+		JCommander lCLParser;
+		
+		try { lCLParser = new JCommander(lToolArgs, aArgs); }
+		catch (Exception lException)
+		{
+			System.out.println(lException.getMessage());
+			new JCommander(lToolArgs).usage();
+			return;
+		}
 		
 		// Validate arguments
-		if (lToolArgs.getInputListFile().canRead() == false)
+		if (lToolArgs.validate() == false)
 		{
 			lCLParser.usage();
 			return;
