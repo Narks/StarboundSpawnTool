@@ -75,8 +75,13 @@ public class StarboundSpawnTool
 							+ lItem
 							), "utf-8"));
 				
-				lWriter.write("hello world");
-				
+				lWriter.write(
+						"{" + "\n"
+						+ "\"input\" : [{ \"item\" : \"money\", \"count\" : 1 }]," + "\n"
+						+ "\"output\" : { \"item\" : \"ITEMNAME\", \"count\" : 1}," + "\n"
+						+ "\"groups\" : [ \"plain\", \"CATEGORY\", \"all\" ]" + "\n"
+						+ "}" + "\n");
+						
 				lWriter.close();
 			}
 		}
