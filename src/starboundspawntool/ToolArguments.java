@@ -18,7 +18,7 @@ public class ToolArguments
 	private File mInputListFile;
 	public File getInputListFile() { return mInputListFile; }
 	
-	@Parameter(names = "-output", description = "Output directory")
+	@Parameter(names = "-output", description = "Output directory", required = true)
 	private String mOutputDirectoryPath = "";
 	public Path getOutputDirectoryPath() 
 	{
@@ -26,14 +26,19 @@ public class ToolArguments
 	}
 	
 	@Parameter(names = "-category", 
-			description = "Crafting category item goes into")
+			description = "Crafting category item goes into", required = true)
 	private String mCraftingCategory;
 	public String getCraftingCategory() { return mCraftingCategory; }
 	
 	@Parameter(names = "-crafttype",
-			description = "Crafting table object name")
+			description = "Crafting table object name", required = true)
 	private String mCraftingType;
 	public String getCraftingType() { return mCraftingType; }
+	
+	@Parameter(names = "-costdebug",
+			description = "Makes the pixel cost of every item crafted different")
+	private Boolean mCostDebug = false;
+	public Boolean getCostDebug() { return mCostDebug; }
 	
 	/**
 	 * Validates the arguments, printing any issues to System.out then returning 

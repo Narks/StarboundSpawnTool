@@ -70,12 +70,13 @@ public class StarboundSpawnTool
 			{
 				String lItemName = lScanner.next();
 				lItemList.add(lItemName);
-				lConfigWriter.write("				{ \"item\" : \"" 
+				lConfigWriter.write("			{ \"item\" : \"" 
 						+ lItemName + "\" },\n");
 			}
 			lScanner.close();
 			lConfigWriter.close();
 			
+			int lPixelCost = 1;
 			for (String lItem : lItemList)
 			{
 				Path lOutputPath =
@@ -87,9 +88,16 @@ public class StarboundSpawnTool
 						new OutputStreamWriter(
 						new FileOutputStream(lOutputPath.toFile()), "utf-8"));
 				
+				String lCost = "";
+				if (lToolArgs.getCostDebug())
+				{
+					lCost = "{ \"item\" : \"money\", \"count\" : " + lPixelCost + "}";
+					lPixelCost++;
+				}
+				
 				lWriter.write(
 						"{" + "\n"
-						+ "\"input\" : [{ \"item\" : \"money\", \"count\" : 1 }]," + "\n"
+						+ "\"input\" : [" + lCost + "]," + "\n"
 						+ "\"output\" : { \"item\" : \"" + lItem + "\", \"count\" : 1}," + "\n"
 						+ "\"groups\" : [ \"" 
 						+ lToolArgs.getCraftingType() + "\", \"" 
@@ -97,6 +105,7 @@ public class StarboundSpawnTool
 						+ "}" + "\n");
 						
 				lWriter.close();
+				
 			}
 		}
 		catch (Exception lException)
